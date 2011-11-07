@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "coordinatesview.h"
+#include "satelliteinfo.h"
 
 #include <QtCore/QCoreApplication>
 #include <QAction>
-//#include <QNearFieldTagType2>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,11 +13,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(action, SIGNAL(triggered()), this, SLOT(startGPS()));
     actions.append(action);
 
+    action = new QAction(tr("Stop GPS"), this);
+    connect(action, SIGNAL(triggered()), this, SLOT(stopGPS()));
+    actions.append(action);
+
+    action = new QAction(tr("Start Tracking"), this);
+    connect(action, SIGNAL(triggered()), this, SLOT(startTracking()));
+    actions.append(action);
+
     tracker = new GPSTracker(this);
     CoordinatesView * coordinatesView = new CoordinatesView(tracker, actions, this);
     coordinatesView->showMaximized();
-    //    setCentralWidget(coordinatesView);
-    //    menuBar()->addAction(tr("Start GPS"), this, SLOT(on_startGPS_triggered()));
+
+//    SatelliteInfo * satelliteInfo = new SatelliteInfo(this);
+//    satelliteInfo->showMaximized();
 }
 
 MainWindow::~MainWindow(){
@@ -81,4 +90,13 @@ void MainWindow::showExpanded()
 void MainWindow::startGPS()
 {
     tracker->startGPS();
+}
+
+void MainWindow::stopGPS()
+{
+    tracker->stopGPS();
+}
+
+void MainWindow::startTracking() {
+    tracker->startTracking();
 }

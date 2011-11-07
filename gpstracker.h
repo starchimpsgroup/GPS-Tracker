@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGeoPositionInfoSource>
+#include "pointmodel.h"
 #include "point.h"
 
 using namespace QtMobility;
@@ -25,30 +26,30 @@ public:
 
     void startTracking();
     void stopTracking();
-    bool isTracking(){return tracking;}
-    void setTrackingInterval(int msec);
-    int getTrackingInterval(){return trackingInterval;}
     void recordActualPosition();
+    inline bool isTracking(){return tracking;}
+    inline void setTrackingInterval(int msec);
+    inline int getTrackingInterval(){return trackingInterval;}
 
     void startGPS();
     void stopGPS();
-    bool isGPSActiv();
-    GPSStatus getGPSStatus(){return gpsStatus;}
+    inline bool isGPSActiv();
+    inline GPSStatus getGPSStatus(){return gpsStatus;}
 
-    QGeoPositionInfoSource * getQGeoPositionInfoSource(){return geoPositionInfoSource;}
-    QList<Point> * getPoints(){return points;}
+    inline QGeoPositionInfoSource * getQGeoPositionInfoSource(){return geoPositionInfoSource;}
+    inline PointModel * getPointModel(){return &points;}
 
 signals:
     void gpsStatusChanged(GPSTracker::GPSStatus status);
     void positionUpdated(Point point);
 
 private:
-    void changeGPSStatus(GPSStatus status);
-    void addPoint(Point point);
+    inline void changeGPSStatus(GPSStatus status);
+    void addPosition(QGeoPositionInfo position);
 
 private:
     QGeoPositionInfoSource * geoPositionInfoSource;
-    QList<Point> * points;
+    PointModel points;
     GPSStatus gpsStatus;
     int trackingInterval;
     bool tracking;

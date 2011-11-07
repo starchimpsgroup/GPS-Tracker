@@ -3,7 +3,7 @@
 // Konstruktor mit Parameter
 
 GPSTracker::GPSTracker(QObject *parent) :
-    QObject(parent){
+    QObject(parent) {
     geoPositionInfoSource = QGeoPositionInfoSource::createDefaultSource(this);
     // emit funktioniert erst nach dem Konstruktor
     if(geoPositionInfoSource) {
@@ -18,29 +18,24 @@ GPSTracker::GPSTracker(QObject *parent) :
 
     trackingInterval = 500;
     tracking = false;
-
-    points = new QList<Point>();
 }
 
-GPSTracker::~GPSTracker(){
+GPSTracker::~GPSTracker() {
     delete geoPositionInfoSource;
-
-//    qDeleteAll(points->begin(), points->end());
-    delete points;
 }
 
-void GPSTracker::startTracking(){
+void GPSTracker::startTracking() {
     startGPS();
     if(isGPSActiv()) {
         tracking = true;
     }
 }
 
-void GPSTracker::stopTracking(){
+void GPSTracker::stopTracking() {
     tracking = false;
 }
 
-void GPSTracker::setTrackingInterval(int msec){
+void GPSTracker::setTrackingInterval(int msec) {
     if(geoPositionInfoSource) {
         geoPositionInfoSource->setUpdateInterval(msec);
         trackingInterval = geoPositionInfoSource->updateInterval();
@@ -49,14 +44,14 @@ void GPSTracker::setTrackingInterval(int msec){
     }
 }
 
-void GPSTracker::recordActualPosition(){
+void GPSTracker::recordActualPosition() {
     if(geoPositionInfoSource) {
         geoPositionInfoSource->requestUpdate(); // richtig?
-        addPoint(Point(&geoPositionInfoSource->lastKnownPosition()));
+        addPosition(geoPositionInfoSource->lastKnownPosition());
     }
 }
 
-void GPSTracker::startGPS(){
+void GPSTracker::startGPS() {
     if(geoPositionInfoSource) {
         if(!isGPSActiv()){
             setTrackingInterval(trackingInterval);
@@ -68,45 +63,41 @@ void GPSTracker::startGPS(){
     }
 }
 
-void GPSTracker::stopGPS(){
+void GPSTracker::stopGPS() {
     if(isGPSActiv()) {
         geoPositionInfoSource->stopUpdates();
         changeGPSStatus(INACTIVE);
     }
 }
 
-bool GPSTracker::isGPSActiv(){
+bool GPSTracker::isGPSActiv() {
     return gpsStatus == ACTIVE || gpsStatus == RECEIVE || gpsStatus == TIMEOUT;
 }
 
-void GPSTracker::changeGPSStatus(GPSStatus status){
+void GPSTracker::changeGPSStatus(GPSStatus status) {
     gpsStatus = status;
     emit gpsStatusChanged(status);
 }
 
-void GPSTracker::positionUpdated(QGeoPositionInfo position)
-{
-    Point point(&position);
+void GPSTracker::positionUpdated(QGeoPositionInfo position) {
     if(tracking){
-        addPoint(point);
+        addPosition(position);
     }
-    emit positionUpdated(point);
+    emit positionUpdated(Point(position));
     changeGPSStatus(RECEIVE);
 }
 
-void GPSTracker::addPoint(Point point){
-    if(points->size() > 0){
-        // letzter Punkt mit aktuellem vergleichen
-        if(points->last().equals(&point)) {
-            //            delete point;
-        } else {
-            points->append(point);
+void GPSTracker::addPosition(QGeoPositionInfo position) {
+    Point point(position);
+    if(points.rowCount() > 0){
+        if(!points.last().equals(point)) {
+            points.addPoint(point);
         }
     } else {
-        points->append(point);
+        points.addPoint(point);
     }
 }
 
-void GPSTracker::updateTimeout(){
+void GPSTracker::updateTimeout() {
     changeGPSStatus(TIMEOUT);
 }

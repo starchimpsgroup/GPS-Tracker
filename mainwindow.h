@@ -27,6 +27,8 @@ private:
 
 private slots:
     void startGPS();
+    void stopGPS();
+    void startTracking();
 };
 
 #endif // MAINWINDOW_H
