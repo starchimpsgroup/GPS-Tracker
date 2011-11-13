@@ -30,18 +30,3 @@ const QString Point::text() const {
                                arg(longitude, 0, 'f', 3).
                                arg(altitude,  0, 'f', 3);
 }
-
-const QString Point::text(GPSFormat format) const {
-    switch(format) {
-        case Point::WGS84:
-            return text();
-        break;
-        case Point::ECEF:
-            return Point::WGS2ECEF(*this).text();
-        break;
-        case Point::ENU:
-        break;
-        case Point::DHDN:
-        break;
-    }
-}

@@ -17,6 +17,10 @@ public:
 
     Point &last() {return points.last();}
 
+    void setFormat(Point::GPSFormat format) {
+        this->format = format;
+    }
+
 signals:
 
 public slots:
@@ -24,7 +28,7 @@ public slots:
 
 private:
     QList<Point> points;
-
+    Point::GPSFormat format;
 };
 
 #endif // POINTMODEL_H

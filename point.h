@@ -19,13 +19,12 @@ using namespace QtMobility;
 class Point : public QListWidgetItem
 {
 public:
-    typedef enum GPSFormat {
+    enum GPSFormat {
         WGS84,
         ECEF,
         ENU,
         DHDN
-    }
-    GPSFormat;
+    };
 
     Point(double latitude  = 0.0,
           double longitude = 0.0,
@@ -72,11 +71,43 @@ public:
     }
 
     static Point WGS2ENU(Point reference, Point position) {
-        return Point::ECEF2ENU(Point::WGS2ECEF(reference), Point::WGS2ECEF(position));
+        return Point::ECEF2ENU(reference, Point::WGS2ECEF(reference), Point::WGS2ECEF(position));
     }
 
-    static Point ECEF2ENU(Point reference, Point position) {
+    static Point ECEF2ENU(Point referenceWGS84, Point referenceECEF, Point positionECEF) {
+        // http://en.wikipedia.org/wiki/Geodetic_system
+        // http://www.ottmarlabonde.de/L1/Datumstransformation.htm
+        double lat = referenceWGS84.latitude * M_PI / 180.0;
+        double lon = referenceWGS84.longitude * M_PI / 180.0;
 
+        double pX = positionECEF.latitude  - referenceECEF.latitude;
+        double pY = positionECEF.longitude - referenceECEF.longitude;
+        double pZ = positionECEF.altitude  - referenceECEF.altitude;
+
+        // Line 1
+        double a1 = -sin(lon);
+        double b1 = cos(lon);
+        double c1 = 0.0;
+
+        // Line 2
+        double a2 = -sin(lat)*cos(lon);
+        double b2 = -sin(lat)*sin(lon);
+        double c2 = cos(lat);
+
+        // Line 3
+        double a3 = cos(lat)*cos(lon);
+        double b3 = cos(lat)*sin(lon);
+        double c3 = sin(lat);
+
+        double x = a1 * pX + b1 * pY + c1 * pZ;
+        double y = a2 * pX + b2 * pY + c2 * pZ;
+        double z = a3 * pX + b3 * pY + c3 * pZ;
+
+        return Point(x, y, z, Point::ENU);
+    }
+
+    static Point ECEF2DHDN() {
+        return Point(0, 0, 0);
     }
 
 private:

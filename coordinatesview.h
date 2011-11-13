@@ -23,6 +23,10 @@ private:
 private slots:
     void gpsStatusChanged(GPSTracker::GPSStatus status);
     void positionUpdated(Point point);
+
+    void on_actionWGS84_triggered();
+    void on_actionECEF_triggered();
+    void on_actionENU_triggered();
 };
 
 #endif // COORDINATESVIEW_H

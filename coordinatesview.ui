@@ -71,14 +71,38 @@
      </widget>
     </item>
     <item row="4" column="0">
-     <widget class="QLabel" name="status">
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="text">
-       <string>Status:</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="status">
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
+        <property name="text">
+         <string>Status:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="format">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -91,7 +115,31 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFormat">
+    <property name="title">
+     <string>Format</string>
+    </property>
+    <addaction name="actionWGS84"/>
+    <addaction name="actionECEF"/>
+    <addaction name="actionENU"/>
+   </widget>
+   <addaction name="menuFormat"/>
   </widget>
+  <action name="actionWGS84">
+   <property name="text">
+    <string>WGS84</string>
+   </property>
+  </action>
+  <action name="actionECEF">
+   <property name="text">
+    <string>ECEF</string>
+   </property>
+  </action>
+  <action name="actionENU">
+   <property name="text">
+    <string>ENU</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
