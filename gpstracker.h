@@ -24,15 +24,10 @@ public:
     explicit GPSTracker(QObject *parent = 0);
     ~GPSTracker();
 
-    void startTracking();
-    void stopTracking();
-    void recordActualPosition();
     inline bool isTracking(){return tracking;}
     inline void setTrackingInterval(int msec);
     inline int getTrackingInterval(){return trackingInterval;}
 
-    void startGPS();
-    void stopGPS();
     inline bool isGPSActiv();
     inline GPSStatus getGPSStatus(){return gpsStatus;}
 
@@ -57,6 +52,13 @@ private:
 private slots:
     void positionUpdated(QGeoPositionInfo position);
     void updateTimeout();
+
+public slots:
+    void startGPS();
+    void stopGPS();
+    void startTracking();
+    void stopTracking();
+    void recordActualPosition();
 };
 
 #endif // GPSTRACKER_H

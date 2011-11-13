@@ -10,15 +10,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QList<QAction *> actions;
     QAction * action = new QAction(tr("Start GPS"), this);
-    connect(action, SIGNAL(triggered()), this, SLOT(startGPS()));
+    connect(action, SIGNAL(triggered()), SLOT(startGPS()));
     actions.append(action);
 
     action = new QAction(tr("Stop GPS"), this);
-    connect(action, SIGNAL(triggered()), this, SLOT(stopGPS()));
+    connect(action, SIGNAL(triggered()), SLOT(stopGPS()));
     actions.append(action);
 
     action = new QAction(tr("Start Tracking"), this);
-    connect(action, SIGNAL(triggered()), this, SLOT(startTracking()));
+    connect(action, SIGNAL(triggered()), SLOT(startTracking()));
+    actions.append(action);
+
+    action = new QAction(tr("Record Actual-Position"), this);
+    connect(action, SIGNAL(triggered()), SLOT(recordActualPosition()));
     actions.append(action);
 
     tracker = new GPSTracker(this);
@@ -85,18 +89,4 @@ void MainWindow::showExpanded()
 #else
     show();
 #endif
-}
-
-void MainWindow::startGPS()
-{
-    tracker->startGPS();
-}
-
-void MainWindow::stopGPS()
-{
-    tracker->stopGPS();
-}
-
-void MainWindow::startTracking() {
-    tracker->startTracking();
 }

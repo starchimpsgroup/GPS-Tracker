@@ -26,9 +26,11 @@ private:
     GPSTracker * tracker;
 
 private slots:
-    void startGPS();
-    void stopGPS();
-    void startTracking();
+    void startGPS(){tracker->startGPS();}
+    void stopGPS(){tracker->stopGPS();}
+    void startTracking(){tracker->startTracking();}
+    void stopTracking(){tracker->stopTracking();}
+    void recordActualPosition(){tracker->recordActualPosition();}
 };
 
 #endif // MAINWINDOW_H

@@ -15,13 +15,14 @@ QVariant PointModel::data(const QModelIndex &index, int role) const
 {
     switch(role) {
         case Qt::DisplayRole:
-        return points.at(index.row()).text();
+        return points.at(index.row()).text(Point::ECEF);
     }
 
     return QVariant();
 }
 
-void PointModel::addPoint(const Point &point) {
+void PointModel::addPoint(const Point &point)
+{
     beginInsertRows(QModelIndex(),points.count(),points.count());
     points.append(point);
     endInsertRows();

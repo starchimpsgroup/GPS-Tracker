@@ -45,7 +45,7 @@ void GPSTracker::setTrackingInterval(int msec) {
 }
 
 void GPSTracker::recordActualPosition() {
-    if(geoPositionInfoSource) {
+    if(isGPSActiv() && geoPositionInfoSource) {
         geoPositionInfoSource->requestUpdate(); // richtig?
         addPosition(geoPositionInfoSource->lastKnownPosition());
     }
