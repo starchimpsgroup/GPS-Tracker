@@ -84,6 +84,8 @@ void GPSTracker::positionUpdated(QGeoPositionInfo position) {
         addPosition(position);
     }
     emit positionUpdated(Point(position));
+    horizontalAccuracy = position.attribute(QGeoPositionInfo::HorizontalAccuracy);
+    verticalAccuracy   = position.attribute(QGeoPositionInfo::VerticalAccuracy);
     changeGPSStatus(RECEIVE);
 }
 

@@ -31,6 +31,7 @@ private slots:
     void startTracking(){tracker->startTracking();}
     void stopTracking(){tracker->stopTracking();}
     void recordActualPosition(){tracker->recordActualPosition();}
+    void satelliteinfo();
 };
 
 #endif // MAINWINDOW_H

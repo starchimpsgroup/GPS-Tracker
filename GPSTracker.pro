@@ -37,8 +37,7 @@ HEADERS += mainwindow.h \
     satelliteinfo.h \
     camera.h
 FORMS += \
-    coordinatesview.ui \
-    satelliteinfo.ui
+    coordinatesview.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
@@ -52,3 +51,4 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
+

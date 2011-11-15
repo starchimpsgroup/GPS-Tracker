@@ -4,10 +4,13 @@
 
 #include <QtCore/QCoreApplication>
 #include <QAction>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    QApplication::setQuitOnLastWindowClosed(false);
+
     QList<QAction *> actions;
     QAction * action = new QAction(tr("Start GPS"), this);
     connect(action, SIGNAL(triggered()), SLOT(startGPS()));
@@ -21,20 +24,30 @@ MainWindow::MainWindow(QWidget *parent)
     connect(action, SIGNAL(triggered()), SLOT(startTracking()));
     actions.append(action);
 
-    action = new QAction(tr("Record Actual-Position"), this);
+    action = new QAction(tr("Stop Tracking"), this);
+    connect(action, SIGNAL(triggered()), SLOT(stopTracking()));
+    actions.append(action);
+
+    action = new QAction(tr("Record Actual Position"), this);
     connect(action, SIGNAL(triggered()), SLOT(recordActualPosition()));
+    actions.append(action);
+
+    action = new QAction(tr("Satelliteinfo"), this);
+    connect(action, SIGNAL(triggered()), SLOT(satelliteinfo()));
     actions.append(action);
 
     tracker = new GPSTracker(this);
     CoordinatesView * coordinatesView = new CoordinatesView(tracker, actions, this);
     coordinatesView->showMaximized();
-
-//    SatelliteInfo * satelliteInfo = new SatelliteInfo(this);
-//    satelliteInfo->showMaximized();
 }
 
 MainWindow::~MainWindow(){
     delete tracker;
+}
+
+void MainWindow::satelliteinfo() {
+    SatelliteInfo * satelliteInfo = new SatelliteInfo(this);
+    satelliteInfo->exec();
 }
 
 void MainWindow::setOrientation(ScreenOrientation orientation)

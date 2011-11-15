@@ -34,6 +34,9 @@ public:
     inline QGeoPositionInfoSource * getQGeoPositionInfoSource(){return geoPositionInfoSource;}
     inline PointModel * getPointModel(){return &points;}
 
+    inline double getHorizontalAccuracy() {return horizontalAccuracy;}
+    inline double getVerticalAccuracy()   {return verticalAccuracy;}
+
 signals:
     void gpsStatusChanged(GPSTracker::GPSStatus status);
     void positionUpdated(Point point);
@@ -48,6 +51,8 @@ private:
     GPSStatus gpsStatus;
     int trackingInterval;
     bool tracking;
+    double horizontalAccuracy;
+    double verticalAccuracy;
 
 private slots:
     void positionUpdated(QGeoPositionInfo position);

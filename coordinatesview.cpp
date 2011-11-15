@@ -42,6 +42,9 @@ void CoordinatesView::positionUpdated(Point point) {
     ui->longitude->setText(QString::number(point.getLongitude()));
     ui->latitude->setText(QString::number(point.getLatitude()));
     ui->altitude->setText(QString::number(point.getAltitude()));
+    ui->accuracy->setText("Accuracy: " +
+                           QString::number(tracker->getHorizontalAccuracy()) + "/" +
+                           QString::number(tracker->getVerticalAccuracy()));
 }
 
 void CoordinatesView::on_actionWGS84_triggered() {

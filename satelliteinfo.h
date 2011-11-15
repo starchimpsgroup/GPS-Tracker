@@ -1,7 +1,7 @@
 #ifndef SATELLITEINFO_H
 #define SATELLITEINFO_H
 
-#include <QMainWindow>
+#include <QMessageBox>
 #include <QGeoPositionInfoSource>
 #include <QGeoSatelliteInfoSource>
 
@@ -11,29 +11,30 @@ namespace Ui {
 class SatelliteInfo;
 }
 
-class SatelliteInfo : public QMainWindow
+class SatelliteInfo : public QMessageBox
 {
     Q_OBJECT
-
 public:
     explicit SatelliteInfo(QWidget *parent = 0);
-    ~SatelliteInfo();
 
 private:
-    Ui::SatelliteInfo *ui;
+//    struct PolarCoordiante{
+//        double r;
+//        double phi;
+//        double lambda;
+//    };
 
-    struct PolarCoordiante{
-        double r;
-        double phi;
-        double lambda;
-    };
+//    PolarCoordiante c2p(const QGeoCoordinate &coordiante);
+    void updateText();
 
-    PolarCoordiante c2p(const QGeoCoordinate &coordiante);
+private:
+    int inUse;
+    int inView;
 
 private slots:
-    void satellitesInUseUpdated ( const QList<QGeoSatelliteInfo> & satellites );
+    void satellitesInUseUpdated  ( const QList<QGeoSatelliteInfo> & satellites );
     void satellitesInViewUpdated ( const QList<QGeoSatelliteInfo> & satellites );
-    void positionUpdated ( const QGeoPositionInfo & update );
+//    void positionUpdated ( const QGeoPositionInfo & update );
 };
 
 
